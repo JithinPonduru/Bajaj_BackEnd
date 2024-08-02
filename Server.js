@@ -23,16 +23,14 @@ app.post('/bfhl/post', (req, res) => {
     if (dataString) {
       const parsedData = dataString;
       const ArrayofData = parsedData["data"];
-      console.log(ArrayofData);
       
-      // Validate that ArrayofData is an array
       if (!Array.isArray(ArrayofData)) {
         return res.status(400).send('Invalid data format: data should be an array');
       }
 
       let maxAlpha = ''; 
       
-      for (let i = 0; i < ArrayofData.length; i++) { // Corrected loop condition
+      for (let i = 0; i < ArrayofData.length; i++) { 
         const item = ArrayofData[i];
         
         if (/^\d+$/.test(item)) {
@@ -49,7 +47,7 @@ app.post('/bfhl/post', (req, res) => {
         Data.highest_alphabet.push(maxAlpha);
       }
 
-      Data.is_success = true; // Update Data object to reflect success
+      Data.is_success = true; 
     } else {
       console.log('No data found');
       return res.status(400).send('No data found');
