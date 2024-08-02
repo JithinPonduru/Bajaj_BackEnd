@@ -19,7 +19,7 @@ app.post('/bfhl/post', (req, res) => {
       alphabets: [],
       highest_alphabet: [],
     };
-
+    // final
     if (dataString) {
       const parsedData = dataString;
       const ArrayofData = parsedData["data"];
