@@ -11,7 +11,7 @@ app.use(express.json());
 app.post('/bfhl/post', (req, res) => {
   try {
     const dataString = req.body.data;
-    const Data = { // Initialize Data object within this route
+    const Data = {
       is_success: false,
       user_id: "john_doe_17091999",
       email: "john@xyz.com",
@@ -24,8 +24,7 @@ app.post('/bfhl/post', (req, res) => {
     if (dataString) {
       const parsedData = JSON.parse(dataString);
       const ArrayofData = parsedData.data;
-      let maxAlpha = ''; // Initialize maxAlpha as an empty string
-
+      let maxAlpha = ''; 
       console.log(parsedData);
       for (let i = 0; i < ArrayofData.length; i++) { // Corrected loop condition
         const item = ArrayofData[i];
