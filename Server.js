@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { json } = require('stream/consumers');
 
 const app = express();
 app.use(cors());
@@ -57,10 +58,10 @@ app.post('/bfhl/post', (req, res) => {
 });
 
 app.get('/bfhl', (req, res) => {
-  console.log("Received a GET request on /bfhl");
-  res.send('Hello, World!');
+  const response = { "operation_code": 1 };
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify(response));
 });
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
