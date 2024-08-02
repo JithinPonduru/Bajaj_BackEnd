@@ -9,8 +9,7 @@ app.use(express.json());
 
 app.post('/bfhl/post', (req, res) => {
   try {
-    const dataString = req.body.data;
-    console.log(dataString);
+    const dataString = req.body;
     const Data = {
       is_success: false,
       user_id: "john_doe_17091999",
@@ -22,20 +21,19 @@ app.post('/bfhl/post', (req, res) => {
     };
 
     if (dataString) {
-      const parsedData = JSON.parse(dataString);
-      const ArrayofData = parsedData.data;
-
+      const parsedData = dataString;
+      const ArrayofData = parsedData["data"];
+      console.log(ArrayofData);
+      
       // Validate that ArrayofData is an array
       if (!Array.isArray(ArrayofData)) {
         return res.status(400).send('Invalid data format: data should be an array');
       }
 
       let maxAlpha = ''; 
-      console.log(parsedData);
       
       for (let i = 0; i < ArrayofData.length; i++) { // Corrected loop condition
         const item = ArrayofData[i];
-        console.log(item);
         
         if (/^\d+$/.test(item)) {
           Data.numbers.push(item);
