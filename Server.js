@@ -1,16 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-const { json } = require('stream/consumers');
 
 const app = express();
-app.use(cors());
 const port = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.post('/bfhl/post', (req, res) => {
   try {
     const dataString = req.body.data;
+    console.log(dataString);
     const Data = {
       is_success: false,
       user_id: "john_doe_17091999",
@@ -24,11 +24,19 @@ app.post('/bfhl/post', (req, res) => {
     if (dataString) {
       const parsedData = JSON.parse(dataString);
       const ArrayofData = parsedData.data;
+
+      // Validate that ArrayofData is an array
+      if (!Array.isArray(ArrayofData)) {
+        return res.status(400).send('Invalid data format: data should be an array');
+      }
+
       let maxAlpha = ''; 
       console.log(parsedData);
+      
       for (let i = 0; i < ArrayofData.length; i++) { // Corrected loop condition
         const item = ArrayofData[i];
         console.log(item);
+        
         if (/^\d+$/.test(item)) {
           Data.numbers.push(item);
         } else if (typeof item === 'string' && /^[a-zA-Z]+$/.test(item)) {
@@ -46,10 +54,10 @@ app.post('/bfhl/post', (req, res) => {
       Data.is_success = true; // Update Data object to reflect success
     } else {
       console.log('No data found');
+      return res.status(400).send('No data found');
     }
 
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(Data));
+    res.json(Data);
   } catch (error) {
     console.error('Error parsing data:', error);
     res.status(400).send('Invalid data format');
@@ -58,9 +66,9 @@ app.post('/bfhl/post', (req, res) => {
 
 app.get('/bfhl', (req, res) => {
   const response = { "operation_code": 1 };
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify(response));
+  res.json(response);
 });
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
